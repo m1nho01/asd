@@ -1,0 +1,24 @@
+name: Gemini AI Code Review
+
+# 팀원이 Pull Request를 올리거나 코드를 업데이트할 때마다 작동
+on:
+  pull_request:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    
+    # AI가 깃허브 PR에 코멘트를 달기 위해 필요한 권한
+    permissions:
+      contents: read
+      pull-requests: write 
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Gemini 코드 리뷰 실행
+        uses: sshnaidm/gemini-code-review-action@v2
+        with:
+          # 아까 등록한 Secret 키를 여기에 연결
+          gemini-key: ${{ secrets.GEMINI_API_KEY }}
